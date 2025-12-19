@@ -1,0 +1,114 @@
+# Hospital Management System (Online Compiler Version)
+# Data is stored in memory (no JSON file needed)
+
+class HospitalManagement:
+    def __init__(self):
+        self.patients = {}
+
+    def add_patient(self):
+        pid = input("Enter Patient ID: ")
+        if pid in self.patients:
+            print("Patient already exists!")
+            return
+
+        name = input("Enter Patient Name: ")
+        age = input("Enter Age: ")
+        disease = input("Enter Disease: ")
+        doctor = input("Enter Doctor Name: ")
+
+        self.patients[pid] = {
+            "name": name,
+            "age": age,
+            "disease": disease,
+            "doctor": doctor
+        }
+        print("Patient added successfully!")
+
+    def view_patients(self):
+        if not self.patients:
+            print("No patient records found.")
+            return
+
+        for pid, info in self.patients.items():
+            print(f"""
+Patient ID: {pid}
+Name      : {info['name']}
+Age       : {info['age']}
+Disease   : {info['disease']}
+Doctor    : {info['doctor']}
+----------------------------""")
+
+    def update_patient(self):
+        pid = input("Enter Patient ID to update: ")
+        if pid not in self.patients:
+            print("Patient not found!")
+            return
+
+        print("Leave blank to keep old value")
+        name = input("New Name: ") or self.patients[pid]["name"]
+        age = input("New Age: ") or self.patients[pid]["age"]
+        disease = input("New Disease: ") or self.patients[pid]["disease"]
+        doctor = input("New Doctor: ") or self.patients[pid]["doctor"]
+
+        self.patients[pid] = {
+            "name": name,
+            "age": age,
+            "disease": disease,
+            "doctor": doctor
+        }
+        print("Patient record updated!")
+
+    def delete_patient(self):
+        pid = input("Enter Patient ID to delete: ")
+        if pid in self.patients:
+            del self.patients[pid]
+            print("Patient deleted successfully!")
+        else:
+            print("Patient not found!")
+
+    def search_patient(self):
+        pid = input("Enter Patient ID to search: ")
+        if pid in self.patients:
+            info = self.patients[pid]
+            print(f"""
+Patient Found
+Name    : {info['name']}
+Age     : {info['age']}
+Disease : {info['disease']}
+Doctor  : {info['doctor']}
+""")
+        else:
+            print("Patient not found!")
+
+    def menu(self):
+        while True:
+            print("\n--- Hospital Management System ---")
+            print("1. Add Patient")
+            print("2. View Patients")
+            print("3. Update Patient")
+            print("4. Delete Patient")
+            print("5. Search Patient")
+            print("6. Exit")
+
+            choice = input("Choose option: ")
+
+            if choice == "1":
+                self.add_patient()
+            elif choice == "2":
+                self.view_patients()
+            elif choice == "3":
+                self.update_patient()
+            elif choice == "4":
+                self.delete_patient()
+            elif choice == "5":
+                self.search_patient()
+            elif choice == "6":
+                print("Exiting system...")
+                break
+            else:
+                print("Invalid choice!")
+
+
+# Run the system
+hospital = HospitalManagement()
+hospital.menu()
